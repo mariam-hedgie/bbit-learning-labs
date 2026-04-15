@@ -67,7 +67,7 @@ class mqConsumer(mpConsumerInterface):
     
     def __del__(self) -> None:
         # Print "Closing RMQ connection on destruction"
-        print("\nClosing RMQ connection on destruction")
+        print("Closing RMQ connection on destruction")
         
 
         # Close Channel
