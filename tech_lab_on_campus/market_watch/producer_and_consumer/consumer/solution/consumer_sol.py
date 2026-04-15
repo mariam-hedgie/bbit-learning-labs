@@ -1,4 +1,4 @@
-import queue
+from consumer_interface import mqConsumerInterface
 import pika
 import os
 
