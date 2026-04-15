@@ -2,7 +2,7 @@ from consumer_interface import mqConsumerInterface
 import pika
 import os
 
-class mqConsumer(mpConsumerInterface):
+class mqConsumer(mqConsumerInterface):
     binding_key = "";
     exchange_name = "";
     queue_name = "";
