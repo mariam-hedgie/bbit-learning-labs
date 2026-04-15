@@ -3,13 +3,20 @@ import pika
 import os
 
 class mqConsumer(mpConsumerInterface):
+    binding_key = "";
+    exchange_name = "";
+    queue_name = "";
+
     def __init__(
         self, binding_key: str, exchange_name: str, queue_name: str
     ) -> None:
         # Save parameters to class variables
+        self.binding_key = binding_key
+        self.exchange_name = exchange_name
+        self.queue_name = queue_name
 
         # Call setupRMQConnection
-        pass
+        self.setupRMQConnection(self)
 
     def setupRMQConnection(self) -> None:
         # Set-up Connection to RabbitMQ service
@@ -41,21 +48,28 @@ class mqConsumer(mpConsumerInterface):
         self, channel, method_frame, header_frame, body
     ) -> None:
         # Acknowledge message
+        channel.basic_ack(delivery_tag=method_frame.delivery_tag)
+
+        if header_frame.headers:
+            print("Headers:", header_frame.headers)
 
         #Print message (The message is contained in the body parameter variable)
+        print("message received: " + body.decode("utf-8"))
 
-        pass
+
 
     def startConsuming(self) -> None:
         # Print " [*] Waiting for messages. To exit press CTRL+C"
+        print(" [*] Waiting for messages. To exit press CTRL+C")
 
         # Start consuming messages
-        pass
+        self.channel.start_consuming()
     
     def __del__(self) -> None:
         # Print "Closing RMQ connection on destruction"
         print("\nClosing RMQ connection on destruction")
         
+
         # Close Channel
         self.channel.close()
 
